@@ -1,0 +1,23 @@
+.AddPage button.submit {
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    padding: 20px 50px ;
+    border-radius: 3px;
+    background: rgb(64, 199, 129);
+    box-shadow: 0 -3px rgb(53, 167, 110) inset;
+    transition: 0.2s;
+    display: block;
+    margin: 40px auto;
+    font-size: 30px;
+    text-transform: uppercase ;
+}
+
+.AddPage button.submit:hover {
+    background: rgb(53, 167, 110);
+}
+
+.AddPage button.submit:active {
+    background: rgb(33, 147, 90);
+    box-shadow: 0 3px rgb(33, 147, 90) inset;
+}
