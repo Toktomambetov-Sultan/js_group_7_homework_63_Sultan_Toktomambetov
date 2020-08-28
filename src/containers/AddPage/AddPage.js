@@ -22,7 +22,7 @@ const AddPage = () => {
         value={lastEditorValue.current}
         tabIndex={1}
         config={{
-          readonly: false, // all options from https://xdsoft.net/jodit/play.html
+          readonly: false,
         }}
         name="content"
         onChange={value => {
@@ -49,25 +49,21 @@ const AddPage = () => {
       date: new Date().toJSON(),
       id: new Date().getTime(),
     };
-    const postsListResponse =
-      (await Axios.get(
-        "https://quickstart-1598216036127.firebaseio.com/posts.json"
-      )) || [];
+    let postsListResponse = await Axios.get(
+      "https://quickstart-1598216036127.firebaseio.com/postsList.json"
+    );
+    if (!postsListResponse.data) postsListResponse.data = [];
     await Axios.put(
-      "https://quickstart-1598216036127.firebaseio.com/posts.json",
+      "https://quickstart-1598216036127.firebaseio.com/postsList.json",
       [...postsListResponse.data, titleData]
     );
     const subjectData = {
       ...data,
       id: titleData.id,
     };
-    const subjectsList =
-      (await Axios.get(
-        "https://quickstart-1598216036127.firebaseio.com/posts.json"
-      )) || [];
-    await Axios.put(
-      "https://quickstart-1598216036127.firebaseio.com/posts.json",
-      [...subjectsList.data, subjectData]
+    await Axios.post(
+      "https://quickstart-1598216036127.firebaseio.com/SubjectsList.json",
+      subjectData
     );
   };
   return (
