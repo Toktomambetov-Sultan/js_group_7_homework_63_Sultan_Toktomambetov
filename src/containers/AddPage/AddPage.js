@@ -1,17 +1,18 @@
-import Axios from "axios";
-
 import "jodit";
 import JoditEditor from "jodit-react";
 import React, { useRef, useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
+import Grayback from "../../components/grayback/Grayback";
+import { Server } from "../../server";
 import "./AddPage.css";
 import "jodit/build/jodit.min.css";
 
-const AddPage = () => {
+const AddPage = props => {
   const editor = useRef(null);
   const [data, setData] = useState({ content: "", title: "", date: null });
   const lastEditorValue = useRef(data.content);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     lastEditorValue.current = data.content;
   });
@@ -44,30 +45,19 @@ const AddPage = () => {
       }, true)
     )
       return;
-    const titleData = {
+    setLoading(true);
+    await Server.addNewPost({
       title: data.title,
-      date: new Date().toJSON(),
-      id: new Date().getTime(),
-    };
-    let postsListResponse = await Axios.get(
-      "https://quickstart-1598216036127.firebaseio.com/postsList.json"
-    );
-    if (!postsListResponse.data) postsListResponse.data = [];
-    await Axios.put(
-      "https://quickstart-1598216036127.firebaseio.com/postsList.json",
-      [...postsListResponse.data, titleData]
-    );
-    const subjectData = {
-      ...data,
-      id: titleData.id,
-    };
-    await Axios.post(
-      "https://quickstart-1598216036127.firebaseio.com/SubjectsList.json",
-      subjectData
-    );
+      subject: data.content,
+    });
+    setLoading(false);
+    props.history.push({
+      pathname: "/",
+    });
   };
   return (
     <div className="AddPage">
+      <Grayback show={loading} />
       <div className="container">
         <form onSubmit={e => formSubmit(e).catch(console.error)}>
           <div
