@@ -1,26 +1,22 @@
-import Axios from "axios";
+import axiosOrders from "./containers/axiosOrders";
 
 export const Server = {
   addNewPost: async ({ title, subject }) => {
     const currentDate = new Date();
-    await Axios.post(
-      "https://quickstart-1598216036127.firebaseio.com/postsList.json",
-      { title, date: currentDate.toJSON(), id: currentDate.getTime() }
-    );
-    await Axios.post(
-      "https://quickstart-1598216036127.firebaseio.com/SubjectsList.json",
-      {
-        title,
-        subject,
-        date: currentDate.toJSON(),
-        id: currentDate.getTime(),
-      }
-    );
+    await axiosOrders.post("/postsList.json", {
+      title,
+      date: currentDate.toJSON(),
+      id: currentDate.getTime(),
+    });
+    await axiosOrders.post("/SubjectsList.json", {
+      title,
+      subject,
+      date: currentDate.toJSON(),
+      id: currentDate.getTime(),
+    });
   },
   getPosts: async () => {
-    return (await Axios.get(
-      "https://quickstart-1598216036127.firebaseio.com/postsList.json"
-    )).data;
+    return (await axiosOrders.get("/postsList.json")).data;
   },
   getPathById: async id => {
     const params = new URLSearchParams({
@@ -28,13 +24,11 @@ export const Server = {
       limitToFirst: 1,
       startAt: id,
     });
-    const subjectPath = await Axios.get(
-      "https://quickstart-1598216036127.firebaseio.com/SubjectsList.json?" +
-        params.toString()
+    const subjectPath = await axiosOrders.get(
+      "/SubjectsList.json?" + params.toString()
     );
-    const postPath = await Axios.get(
-      "https://quickstart-1598216036127.firebaseio.com/postsList.json?" +
-        params.toString()
+    const postPath = await axiosOrders.get(
+      "/postsList.json?" + params.toString()
     );
     return {
       post: Object.keys(postPath.data)[0],
@@ -43,40 +37,27 @@ export const Server = {
   },
   getSubjectById: async function(id) {
     const { subject: path } = await this.getPathById(id);
-    return (await Axios.get(
-      "https://quickstart-1598216036127.firebaseio.com/SubjectsList/" +
-        path +
-        ".json"
-    )).data;
+    return (await axiosOrders.get("/SubjectsList/" + path + ".json")).data;
   },
   deletePostById: async function(id) {
     const { subject: subjectPath, post: postPath } = await this.getPathById(id);
-    await Axios.delete(
-      "https://quickstart-1598216036127.firebaseio.com/SubjectsList/" +
-        subjectPath +
-        ".json"
-    );
-    await Axios.delete(
-      "https://quickstart-1598216036127.firebaseio.com/postsList/" +
-        postPath +
-        ".json"
-    );
+    await axiosOrders.delete("/SubjectsList/" + subjectPath + ".json");
+    await axiosOrders.delete("/postsList/" + postPath + ".json");
   },
   updatePostById: async function(id, { title, subject }) {
     const { subject: subjectPath, post: postPath } = await this.getPathById(id);
     const currentDate = new Date();
     console.log(subject);
-    await Axios.put(
-      "https://quickstart-1598216036127.firebaseio.com/SubjectsList/" +
-        subjectPath +
-        ".json",
-      { title, subject, date: currentDate.toJSON(), id: currentDate.getTime() }
-    );
-    await Axios.put(
-      "https://quickstart-1598216036127.firebaseio.com/postsList/" +
-        postPath +
-        ".json",
-      { title, date: currentDate.toJSON(), id: currentDate.getTime() }
-    );
+    await axiosOrders.put("/SubjectsList/" + subjectPath + ".json", {
+      title,
+      subject,
+      date: currentDate.toJSON(),
+      id: currentDate.getTime(),
+    });
+    await axiosOrders.put("/postsList/" + postPath + ".json", {
+      title,
+      date: currentDate.toJSON(),
+      id: currentDate.getTime(),
+    });
   },
 };
