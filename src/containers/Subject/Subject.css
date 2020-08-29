@@ -1,6 +1,31 @@
-.Subject .delete{
+.Subject .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.Subject .delete {
     padding: 10px 20px;
     font-size: 26px;
-    border: 1px solid rgb(255, 0, 0);
-    
+    border: 3px solid rgb(255, 0, 0);
+    background-color: rgb(252, 158, 158);
+    border-radius: 28px;
+    color: rgb(255, 0, 0);
+}
+.Subject .edit{
+    padding: 10px 20px;
+    font-size: 26px;
+    border: 3px solid rgb(60, 255, 0);
+    background-color: rgb(174, 252, 158);
+    border-radius: 28px;
+    color: rgb(45, 143, 0);
+}
+.Subject .body{
+    background-color: rgb(247, 239, 239);
+    padding: 10px;
+    min-height: 500px;
+}
+.Subject .title{
+    font-size: 28px;
 }

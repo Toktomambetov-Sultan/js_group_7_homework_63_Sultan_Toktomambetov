@@ -48,6 +48,7 @@ export default function SubjectPage(props) {
         >
           delete
         </button>
+        <h3 className="title">{subject.title}</h3>
         <button className="edit" onClick={EditLink}>
           edit
         </button>
