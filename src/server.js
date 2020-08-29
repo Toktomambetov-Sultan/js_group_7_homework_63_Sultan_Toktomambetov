@@ -50,17 +50,33 @@ export const Server = {
     )).data;
   },
   deletePostById: async function(id) {
-    const { subject, post } = await this.getPathById(id);
-
+    const { subject: subjectPath, post: postPath } = await this.getPathById(id);
     await Axios.delete(
       "https://quickstart-1598216036127.firebaseio.com/SubjectsList/" +
-        subject +
+        subjectPath +
         ".json"
     );
     await Axios.delete(
       "https://quickstart-1598216036127.firebaseio.com/postsList/" +
-        post +
+        postPath +
         ".json"
+    );
+  },
+  updatePostById: async function(id, { title, subject }) {
+    const { subject: subjectPath, post: postPath } = await this.getPathById(id);
+    const currentDate = new Date();
+    console.log(subject);
+    await Axios.put(
+      "https://quickstart-1598216036127.firebaseio.com/SubjectsList/" +
+        subjectPath +
+        ".json",
+      { title, subject, date: currentDate.toJSON(), id: currentDate.getTime() }
+    );
+    await Axios.put(
+      "https://quickstart-1598216036127.firebaseio.com/postsList/" +
+        postPath +
+        ".json",
+      { title, date: currentDate.toJSON(), id: currentDate.getTime() }
     );
   },
 };

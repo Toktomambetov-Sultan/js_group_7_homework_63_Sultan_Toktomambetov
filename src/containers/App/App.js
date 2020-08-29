@@ -5,6 +5,7 @@ import AddPage from "../AddPage/AddPage";
 import Home from "../Home/Home";
 import Subject from "../Subject/Subject";
 import "./App.css";
+import EditPage from "../EditPage/EditPage";
 function App() {
   return (
     <div className="App">
@@ -14,7 +15,8 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/posts" exact component={Home} />
           <Route path="/posts/add" exact component={AddPage} />
-          <Route path="/post/:id"  component={Subject} />
+          <Route path="/post/:id" exact component={Subject} />
+          <Route path="/post/:id/edit" component={EditPage} ></Route>
         </Switch>
       </BrowserRouter>
     </div>

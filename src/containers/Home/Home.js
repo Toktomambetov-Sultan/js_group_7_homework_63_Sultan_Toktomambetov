@@ -8,12 +8,11 @@ import "./Home.css";
 
 export default function Home() {
   const [postsList, setPostsList] = useState([]);
-  const initPostsList = async () => {
-    const response = await Server.getPosts();
-    console.log(response);
-    setPostsList(response ? response : []);
-  };
   useEffect(() => {
+    const initPostsList = async () => {
+      const response = await Server.getPosts();
+      setPostsList(response ? response : []);
+    };
     initPostsList();
   }, []);
   return (
